@@ -3,7 +3,7 @@ import React from "react";
 
 export default function MyButton(props) {
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
       <View style={styles.background}>
         <Text style={styles.buttonText}>{props.children}</Text>
       </View>
@@ -14,10 +14,10 @@ export default function MyButton(props) {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "rgb(243, 243, 243)",
-    // backgroundColor: "yellow",
+    // backgroundColor: 'yellow',
     borderColor: "black",
     padding: 10,
-    height: 50,
+    height: 60,
     textAlign: "center",
     justifyContent: "center",
     alignItems: 'center'

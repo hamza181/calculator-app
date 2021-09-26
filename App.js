@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   NativeModules,
   SafeAreaView,
@@ -11,38 +11,63 @@ import Constants from "expo-constants";
 import MyButton from "./components/MyButton";
 
 export default function App() {
-
+  const memoryValues = ["MC", "MR", "M+", "M-", "MS", "M"];
   const calcValues = [
     ["%", "CE", "C", "DEL"],
     ["1/x", "x2", "2/x", "/"],
-    ["7", "8", "9", "X"],
+    ["7", "8", "9", "x"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
     ["+/-", "0", ".", "="],
   ];
 
+  // var [input, setInput] = useState(["0", "1"]);
+  var [input, setInput] = useState(['0']);
+
+  const setInputFunction = (e) => {
+    setInput((data) => [...data, e]);
+    // console.log(e);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.header}>
-        <Text style={styles.heading}>Calculator</Text>
-      </View>
-      <View style={styles.screen}></View>
-      <View style={styles.memoryRow}></View>
-      <View style={styles.buttonView}>
-        {calcValues.map((val, ind) => {
-          return (
-            <View style={styles.buttonRow}>
-              {val.map((value, index) => {
-                return (
-                  <View style={styles.mybutton}>
-                    <MyButton>{value}</MyButton>
-                  </View>
-                );
-              })}
+      <View style={styles.mainView}>
+        <View style={styles.header}>
+          <Text style={styles.heading}>Calculator</Text>
+        </View>
+        <View style={styles.screen}>
+          <View style={styles.subScreen}>
+            <View style={styles.inputScreen}>
+              <Text style={styles.inputText}>{input}</Text>
             </View>
-          );
-        })}
+          </View>
+        </View>
+        <View style={styles.memoryRow}>
+          {memoryValues.map((val, ind) => {
+            return (
+              <View key={ind} style={styles.memoryButton}>
+                <MyButton>{val}</MyButton>
+              </View>
+            );
+          })}
+        </View>
+        <View style={styles.buttonView}>
+          {calcValues.map((val, ind) => {
+            return (
+              <View key={ind} style={styles.buttonRow}>
+                {val.map((value, index) => {
+                  return (
+                    <View key={index} style={styles.mybutton}>
+                      {/* <MyButton onPress={(e) => {setInputFunction(e)}}>{value}</MyButton> */}
+                      <MyButton onPress={()=>setInputFunction(value)}>{value}</MyButton>
+                    </View>
+                  );
+                })}
+              </View>
+            );
+          })}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -55,29 +80,61 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
     padding: 10,
   },
-  header: {flex: 1},
+  mainView: {
+    flex: 1,
+  },
+  header: { flex: 0.7 },
   heading: {
     fontSize: 22,
     fontWeight: "bold",
   },
-  screen: {flex: 3},
-  memoryRow: {flex: 1},
+  screen: {
+    flex: 1.5,
+    backgroundColor: "red",
+    flexDirection: "column-reverse",
+    marginBottom: 25,
+  },
+  subScreen: {
+    flex: 0.7,
+    backgroundColor: "green",
+    justifyContent: "center",
+  },
+  inputScreen: {
+    flex: 0.6,
+    backgroundColor: "yellow",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingHorizontal: 15,
+  },
+  inputText: {
+    fontSize: 35,
+  },
+  memoryRow: {
+    flex: 0.85,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "flex-start",
+  },
+  memoryButton: {
+    width: "16.5%",
+    paddingHorizontal: 2,
+  },
   buttonView: {
-    paddingVertical: 10,
-    flex: 5
+    paddingVertical: 0,
+    flex: 5,
     // backgroundColor: "red",
   },
   buttonRow: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     // backgroundColor: "green",
     width: "100%",
-    paddingVertical: 2
+    paddingVertical: 2,
   },
   mybutton: {
     paddingHorizontal: 2,
     width: "25%",
-    height: 50,
+    height: 60,
     // backgroundColor: 'red'
   },
 });
