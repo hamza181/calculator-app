@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import Constants from "expo-constants";
@@ -22,7 +23,7 @@ export default function App() {
   ];
 
   // var [input, setInput] = useState(["0", "1"]);
-  var [input, setInput] = useState(['0']);
+  var [input, setInput] = useState([]);
 
   const setInputFunction = (e) => {
     setInput((data) => [...data, e]);
@@ -39,7 +40,7 @@ export default function App() {
         <View style={styles.screen}>
           <View style={styles.subScreen}>
             <View style={styles.inputScreen}>
-              <Text style={styles.inputText}>{input}</Text>
+              <TextInput style={styles.inputText} numberOfLines={1} autoCorrect={false} spellCheck={false} >{input}</TextInput>
             </View>
           </View>
         </View>
@@ -59,7 +60,6 @@ export default function App() {
                 {val.map((value, index) => {
                   return (
                     <View key={index} style={styles.mybutton}>
-                      {/* <MyButton onPress={(e) => {setInputFunction(e)}}>{value}</MyButton> */}
                       <MyButton onPress={()=>setInputFunction(value)}>{value}</MyButton>
                     </View>
                   );
@@ -102,9 +102,11 @@ const styles = StyleSheet.create({
   inputScreen: {
     flex: 0.6,
     backgroundColor: "yellow",
-    justifyContent: "center",
-    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    alignItems: "center",
     paddingHorizontal: 15,
+    overflow: 'hidden',
+    flexDirection: 'row'
   },
   inputText: {
     fontSize: 35,
